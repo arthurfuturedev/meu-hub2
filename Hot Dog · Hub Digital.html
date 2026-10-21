@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Hot Dog · Hub Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--fg:#f5f2ea;--mut:rgba(245,242,234,.6);--gold:#D4AF37;--gold2:#a88a2a;--err:#e5736b;--ok:#6fcf97;color-scheme:dark;
+--sans:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--serif:"Playfair Display",Georgia,serif}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100dvh;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+[hidden]{display:none!important}
+.bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(90% 50% at 50% 0,#3b2c0e 0%,transparent 70%),linear-gradient(#0d0b07,#050505)}
+.wrap{max-width:28rem;margin:0 auto;padding:2.5rem 1.25rem 2rem;min-height:100dvh;display:flex;flex-direction:column}
+.hero{text-align:center;margin-bottom:1.5rem;animation:up .8s both}
+.hero svg{width:100%;max-width:19rem;height:auto;filter:drop-shadow(0 18px 30px rgba(212,175,55,.25))}
+h1{font:700 3rem/1 var(--serif);letter-spacing:.03em;margin-top:.5rem}
+.tag{margin-top:.8rem;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.mesa{display:inline-block;margin-top:.9rem;padding:.3rem .8rem;border:1px solid rgba(212,175,55,.35);border-radius:99px;font-size:.75rem;color:var(--mut)}
+.list{display:flex;flex-direction:column;gap:.9rem}
+.btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.25rem;border-radius:1rem;border:1px solid rgba(212,175,55,.3);background:rgba(255,255,255,.05);color:var(--fg);font:500 1rem var(--sans);text-decoration:none;cursor:pointer;transition:transform .2s,border-color .2s,background .2s;animation:up .8s both}
+.btn:hover{border-color:rgba(212,175,55,.8);background:rgba(255,255,255,.09)}.btn:active{transform:scale(.98)}
+.btn:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.btn .l{display:flex;align-items:center;gap:1rem}
+svg.i{width:1.5rem;height:1.5rem;flex:none;stroke:var(--gold);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;border-color:transparent;font-weight:600;box-shadow:0 4px 15px rgba(212,175,55,.3)}
+.btn.gold svg.i{stroke:#111}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
+footer{margin-top:auto;padding-top:2.5rem;text-align:center;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,242,234,.4)}
+footer b{color:rgba(212,175,55,.85);font-weight:500}
+/* cardápio */
+.top{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.back{width:2.5rem;height:2.5rem;border-radius:50%;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.05);display:grid;place-items:center;cursor:pointer}
+.top h2{font:700 1.6rem var(--serif)}
+.tabs{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.6rem;margin-bottom:.8rem;position:sticky;top:0;background:linear-gradient(#0a0a0a 80%,transparent);z-index:5;padding-top:.4rem}
+.tab{flex:none;padding:.5rem 1rem;border-radius:99px;border:1px solid rgba(212,175,55,.3);background:transparent;color:var(--mut);font:500 .85rem var(--sans);cursor:pointer}
+.tab.on{background:var(--gold);color:#111;border-color:var(--gold)}
+.item{display:flex;gap:.9rem;padding:.95rem;margin-bottom:.7rem;border-radius:1rem;border:1px solid rgba(212,175,55,.18);background:rgba(255,255,255,.04)}
+.em{flex:none;width:3.4rem;height:3.4rem;border-radius:.9rem;background:linear-gradient(135deg,rgba(212,175,55,.25),rgba(212,175,55,.05));display:grid;place-items:center;font-size:1.7rem}
+.inf{flex:1;min-width:0}
+.inf b{font-weight:600;font-size:1rem}
+.badge{margin-left:.4rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:var(--gold);color:#111;padding:.12rem .45rem;border-radius:99px;vertical-align:middle}
+.inf p{font-size:.8rem;color:var(--mut);margin:.2rem 0 .5rem;line-height:1.4}
+.row{display:flex;align-items:center;justify-content:space-between}
+.pr{color:var(--gold);font-weight:600}
+.add{padding:.4rem .9rem;border-radius:99px;border:1px solid var(--gold);background:transparent;color:var(--gold);font:600 .8rem var(--sans);cursor:pointer}
+.step{display:flex;align-items:center;gap:.7rem}
+.step button{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--gold);background:transparent;color:var(--gold);font-size:1.1rem;cursor:pointer}
+.step span{min-width:1rem;text-align:center;font-weight:600}
+#bar{position:fixed;left:0;right:0;bottom:0;padding:.8rem 1rem calc(.8rem + env(safe-area-inset-bottom,0));background:rgba(12,12,12,.94);backdrop-filter:blur(12px);border-top:1px solid rgba(212,175,55,.3);z-index:10}
+#bar>div{max-width:28rem;margin:0 auto;display:flex;align-items:center;gap:1rem}
+#bar .t{flex:1;font-size:.8rem;color:var(--mut)}#bar .t b{display:block;color:var(--fg);font-size:1.15rem}
+#bar .btn{width:auto;padding:.8rem 1.2rem;animation:none}
+#net{position:fixed;top:0;left:0;right:0;padding:.5rem 1rem;background:#3a1613;color:#ffd7d3;font-size:.8rem;text-align:center;transform:translateY(-110%);transition:transform .3s;z-index:30}
+#net.on{transform:none}
+#toast{position:fixed;left:50%;bottom:6rem;transform:translate(-50%,200%);width:calc(100% - 2rem);max-width:26rem;padding:.9rem 1.1rem;border-radius:.9rem;background:#1a1a1a;border:1px solid rgba(212,175,55,.4);font-size:.88rem;transition:transform .35s;z-index:40}
+#toast.on{transform:translate(-50%,0)}#toast.err{border-color:var(--err)}#toast.ok{border-color:var(--ok)}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div id="net" role="status">Sem conexão. Alguns recursos ficam indisponíveis até a rede voltar.</div>
+
+<main class="wrap" id="home">
+  <header class="hero">
+    <svg viewBox="0 0 320 170" role="img" aria-label="Ilustração de um hot dog">
+      <defs>
+        <linearGradient id="bn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0c878"/><stop offset="1" stop-color="#b9772e"/></linearGradient>
+        <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8553d"/><stop offset="1" stop-color="#7d2a1e"/></linearGradient>
+      </defs>
+      <ellipse cx="160" cy="150" rx="120" ry="9" fill="#000" opacity=".45"/>
+      <rect x="30" y="86" width="260" height="50" rx="25" fill="url(#bn)"/>
+      <rect x="22" y="62" width="276" height="40" rx="20" fill="url(#sg)"/>
+      <path d="M44 78q14-14 28 0t28 0 28 0 28 0 28 0 28 0 28 0 28 0" fill="none" stroke="#f2c230" stroke-width="7" stroke-linecap="round"/>
+      <path d="M44 90q14-10 28 0t28 0 28 0 28 0 28 0 28 0 28 0 28 0" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-linecap="round"/>
+      <path d="M34 98c10 22 40 28 126 28s116-6 126-28c-14 14-48 18-126 18S48 112 34 98z" fill="#8c5520" opacity=".55"/>
+      <rect x="40" y="40" width="240" height="30" rx="15" fill="url(#bn)"/>
+      <path d="M60 52q100-14 200 0" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+    <h1>Hot Dog</h1>
+    <p class="tag">Experiência Gastronômica</p>
+    <span class="mesa" id="mesa" hidden></span>
+  </header>
+  <nav class="list" aria-label="Ações">
+    <button class="btn gold d1" id="btn-menu" type="button">
+      <span class="l"><svg class="i" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5M9 7h6M9 11h6"/></svg>Cardápio Digital</span>
+      <svg class="i" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+    <a class="btn d2" id="btn-whatsapp" href="https://wa.me/5519982084353" target="_blank" rel="noopener noreferrer">
+      <span class="l"><svg class="i" viewBox="0 0 24 24"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7zM9 9c0 3 3 6 6 6l1-1.5-2-1-1 .7c-1-.4-1.8-1.200-2.200-2.200l.7-1-1-2z"/></svg>WhatsApp</span>
+      <svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
+    </a>
+    <a class="btn d3" id="btn-instagram" href="https://www.instagram.com/odhellanno" target="_blank" rel="noopener noreferrer">
+      <span class="l"><svg class="i" viewBox="0 0 24 24"><rect x="3.500" y="3.500" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".6"/></svg>Instagram</span>
+      <svg class="i" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg>
+    </a>
+  </nav>
+  <footer>Desenvolvido por <b>Nodus</b></footer>
+</main>
+
+<section class="wrap" id="menu" hidden style="padding-bottom:7rem">
+  <div class="top"><button class="back" id="back" type="button" aria-label="Voltar"><svg class="i" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><h2>Cardápio</h2></div>
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <div id="items"></div>
+  <div id="bar" hidden><div><div class="t">Seu pedido<b id="tot">R$ 0,00</b></div><button class="btn gold" id="send" type="button">Pedir no WhatsApp</button></div></div>
+</section>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+const CONFIG = { whatsapp: "5519982084353", maxMesa: 200, maxQty: 20 };
+const MENU = [
+  { cat: "Clássicos", items: [
+    { id: 1, e: "🌭", n: "Tradicional", d: "Salsicha, molho da casa, milho, ervilha, batata palha e queijo ralado.", p: 14 },
+    { id: 2, e: "🌭", n: "Duplo", d: "Duas salsichas, purê cremoso, vinagrete, milho e batata palha.", p: 19, top: 1 },
+    { id: 3, e: "🌭", n: "Frango Cremoso", d: "Frango desfiado com catupiry, milho e batata palha crocante.", p: 18 } ] },
+  { cat: "Especiais", items: [
+    { id: 4, e: "🥓", n: "Bacon Crocante", d: "Salsicha, bacon em tiras, cebola crispy e maionese defumada.", p: 22 },
+    { id: 5, e: "🧀", n: "Cheddar & Bacon", d: "Cheddar cremoso, farofa de bacon e molho barbecue.", p: 24 },
+    { id: 6, e: "🔥", n: "Calabresa Artesanal", d: "Calabresa na brasa, vinagrete de pimenta suave e queijo coalho.", p: 21 },
+    { id: 7, e: "👑", n: "Premium Gold", d: "Salsicha artesanal, cheddar, bacon, cebola caramelizada e molho exclusivo.", p: 28, top: 1 } ] },
+  { cat: "Extras", items: [
+    { id: 8, e: "🍟", n: "Batata Rústica", d: "Porção crocante com alecrim e molho de ervas.", p: 16 },
+    { id: 9, e: "🥤", n: "Refrigerante Lata", d: "350 ml, bem gelado.", p: 6 },
+    { id: 10, e: "🍊", n: "Suco Natural", d: "Laranja ou limão, feito na hora (400 ml).", p: 9 } ] }
+];
+const BRL = v => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const $ = id => document.getElementById(id);
+const cart = {};                                   // id -> quantidade
+const flat = MENU.flatMap(c => c.items);
+
+/* mesa: whitelist estrita, só entra na tela via textContent */
+const mesa = (() => {
+  let raw = ""; try { raw = new URLSearchParams(location.search).get("mesa") || ""; } catch (e) {}
+  if (!/^\d{1,3}$/.test(raw)) return null;
+  const n = parseInt(raw, 10); return n >= 1 && n <= CONFIG.maxMesa ? n : null;
+})();
+if (mesa !== null) { $("mesa").textContent = "Mesa " + mesa; $("mesa").hidden = false; }
+
+let tt; function toast(m, t) { const el = $("toast"); el.textContent = m; el.className = "on " + (t || ""); clearTimeout(tt); tt = setTimeout(() => el.className = "", 3500); }
+function syncNet() { $("net").classList.toggle("on", !navigator.onLine); }
+addEventListener("online", () => { syncNet(); toast("Conexão restabelecida.", "ok"); }); addEventListener("offline", syncNet); syncNet();
+
+/* navegação home <-> cardápio */
+function route() { const m = location.hash === "#cardapio"; $("home").hidden = m; $("menu").hidden = !m; scrollTo(0, 0); }
+$("btn-menu").onclick = () => { location.hash = "cardapio"; };
+$("back").onclick = () => { location.hash = ""; };
+addEventListener("hashchange", route); route();
+
+/* abas */
+let active = 0;
+function renderTabs() {
+  $("tabs").innerHTML = "";
+  MENU.forEach((c, i) => { const b = document.createElement("button"); b.className = "tab" + (i === active ? " on" : ""); b.type = "button"; b.textContent = c.cat; b.onclick = () => { active = i; renderTabs(); renderItems(); }; $("tabs").appendChild(b); });
+}
+function renderItems() {
+  const box = $("items"); box.innerHTML = "";
+  MENU[active].items.forEach(it => {
+    const q = cart[it.id] || 0, el = document.createElement("article"); el.className = "item";
+    el.innerHTML = '<div class="em"></div><div class="inf"><b></b><p></p><div class="row"><span class="pr"></span><div class="ctl"></div></div></div>';
+    el.querySelector(".em").textContent = it.e;
+    const b = el.querySelector("b"); b.textContent = it.n; if (it.top) { const s = document.createElement("span"); s.className = "badge"; s.textContent = "Mais pedido"; b.appendChild(s); }
+    el.querySelector("p").textContent = it.d; el.querySelector(".pr").textContent = BRL(it.p);
+    const ctl = el.querySelector(".ctl");
+    if (!q) { const a = document.createElement("button"); a.className = "add"; a.type = "button"; a.textContent = "Adicionar"; a.onclick = () => change(it.id, 1); ctl.appendChild(a); }
+    else {
+      ctl.className = "ctl step";
+      const m = document.createElement("button"); m.type = "button"; m.textContent = "−"; m.setAttribute("aria-label", "Remover um"); m.onclick = () => change(it.id, -1);
+      const n = document.createElement("span"); n.textContent = q;
+      const p = document.createElement("button"); p.type = "button"; p.textContent = "+"; p.setAttribute("aria-label", "Adicionar um"); p.onclick = () => change(it.id, 1);
+      ctl.append(m, n, p);
+    }
+    box.appendChild(el);
+  });
+}
+function change(id, d) {
+  const q = Math.max(0, Math.min(CONFIG.maxQty, (cart[id] || 0) + d));
+  if (q === CONFIG.maxQty && d > 0 && (cart[id] || 0) === CONFIG.maxQty) toast("Máximo de " + CONFIG.maxQty + " unidades por item.");
+  if (q) cart[id] = q; else delete cart[id];
+  renderItems(); updateBar();
+}
+function totals() { let n = 0, v = 0; flat.forEach(i => { const q = cart[i.id] || 0; n += q; v += q * i.p; }); return { n, v }; }
+function updateBar() { const t = totals(); $("bar").hidden = t.n === 0; $("tot").textContent = t.n + (t.n === 1 ? " item · " : " itens · ") + BRL(t.v); }
+
+/* envio do pedido: trava anti clique duplo */
+let sending = false;
+$("send").onclick = () => {
+  if (sending) return;
+  const t = totals(); if (!t.n) return;
+  if (!navigator.onLine) { toast("Você está sem conexão. Tente novamente em instantes.", "err"); return; }
+  sending = true; $("send").disabled = true; setTimeout(() => { sending = false; $("send").disabled = false; }, 3000);
+  const lines = flat.filter(i => cart[i.id]).map(i => cart[i.id] + "x " + i.n + " — " + BRL(cart[i.id] * i.p));
+  const msg = "Olá! Quero fazer um pedido" + (mesa !== null ? " (Mesa " + mesa + ")" : "") + ":\n\n" + lines.join("\n") + "\n\nTotal: " + BRL(t.v);
+  const w = window.open("https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+  if (!w) toast("Não foi possível abrir o WhatsApp. Libere pop-ups e tente de novo.", "err");
+};
+renderTabs(); renderItems();
+</script>
+</body>
+</html>
